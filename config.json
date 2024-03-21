@@ -1,0 +1,22 @@
+{
+    "model_path": "your_model.safetensors",
+    "scheduler": "DPM++ 2M SDE Karras",
+    "generate_video": false,
+    "init_image" : "preview/your_init_image.jpg",
+    "prompt": "masterpiece, best quality, ultra-detailed, illustration, 1girl, solo, outdoors, camping, night, mountains, nature, stars, moon, tent, twin ponytails, green eyes, cheerful, happy, backpack, sleeping bag, camping stove, water bottle, mountain boots, gloves, sweater, hat, flashlight, forest, rocks, river, wood, smoke, shadows, contrast, clear sky, constellations, Milky Way, peaceful, serene, quiet, tranquil, remote, secluded, adventurous, exploration, escape, independence, survival, resourcefulness, challenge, perseverance, stamina, endurance, observation, intuition, adaptability, creativity, imagination, artistry, inspiration, beauty, awe, wonder, gratitude, appreciation, relaxation, enjoyment, rejuvenation, mindfulness, awareness, connection, harmony, balance, texture, detail, realism, depth, perspective, composition, color, light, shadow, reflection, refraction, tone, contrast, foreground, middle ground, background, naturalistic, figurative, representational, impressionistic, expressionistic, abstract, innovative, experimental, unique",
+    "negative_prompt": "(worst quality:2), (low quality:2), (normal quality:2), lowres, normal quality, ((monochrome)), ((grayscale)), bad anatomy,ng_deepnegative_v1_75t,easynegative, badhandv4, text, watermark,",
+    "strength":0.65,
+    "num_img":6,
+    "guidance_scale":6.5,
+    "num_inference_steps":40,
+    "nsteps":80,
+    "width":768,
+    "height":512,
+    "zoom":0.98,
+    "out_dir":"preview",
+    "fps":10,
+    "lora_dict":{
+        "your_lora_1.safetensors":0.5,
+        "your_lora_2.safetensors":0.8
+    }
+}

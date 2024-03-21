@@ -1,3 +1,8 @@
+#
+# Created on Mon Jul 25 2023
+#
+# 2023 rlsn
+#
 from collections import defaultdict
 from einops import einsum
 import torch
@@ -151,10 +156,14 @@ def zoom(im,ratio):
         m = (s[0]-w)/2,(s[1]-h)/2
         nim = im.crop((m[0], m[1], s[0]-m[0], s[1]-m[1]))
         return nim.resize(s)
-    else:
-        # todo
-        return im
-
+    elif ratio>1:
+        s = im.size
+        r=ratio-1
+        m = int((s[0]*r)//2), int((s[1]*r)//2)
+        im = np.array(im)
+        nim = np.pad(im, ((m[1], m[1]), (m[0], m[0]), (0, 0)), mode='symmetric') 
+        nim = Image.fromarray(nim)
+        return nim.resize(s)
 
 def impulse_schedule(floor,ceiling,impulse,width,steps):
     x = np.arange(steps)

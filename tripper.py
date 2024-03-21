@@ -1,15 +1,29 @@
+#
+# Created on Mon Jul 25 2023
+# a stable diffusion pipline to generate transforming images based on text description
+# Copyright (c) 2023 rlsn
+#
 import diffusers
 from diffusers import (StableDiffusionPipeline, StableDiffusionImg2ImgPipeline)
 import torch
-from utils import *
+from utils import load_lora_weights, convert_prompt_embeds, clean_prompt, timestr
 import os,json
+
+schedulers = {
+    "euler": diffusers.schedulers.scheduling_euler_discrete.EulerDiscreteScheduler,
+    "euler a":diffusers.schedulers.scheduling_euler_ancestral_discrete.EulerAncestralDiscreteScheduler,
+    "DDIM":diffusers.schedulers.scheduling_ddim.DDIMScheduler,
+    "DDPM":diffusers.schedulers.scheduling_ddpm.DDPMScheduler,
+    "DPM++ 2M SDE Karras":diffusers.schedulers.scheduling_k_dpm_2_discrete.KDPM2DiscreteScheduler,
+    "DPM++ 2M Karras":diffusers.schedulers.scheduling_k_dpm_2_ancestral_discrete.KDPM2AncestralDiscreteScheduler,
+}
 
 class Tripper(object):
     def __init__(self, model_file):
-        txt2img_pipe = StableDiffusionPipeline.from_ckpt(model_file, torch_dtype=torch.float16)
-        txt2img_pipe.safety_checker = lambda images,**kwargs: (images, [False] * len(images))
+        txt2img_pipe = StableDiffusionPipeline.from_single_file(model_file, torch_dtype=torch.float16)
         img2img_pipe = StableDiffusionImg2ImgPipeline(**txt2img_pipe.components)
-        img2img_pipe.safety_checker = lambda images,**kwags: (images, [False] * len(images))
+        txt2img_pipe.safety_checker = None
+        img2img_pipe.safety_checker = None
 
         self.txt2img_pipe = txt2img_pipe.to('cuda')
         self.img2img_pipe = img2img_pipe.to("cuda")
@@ -42,7 +56,7 @@ class Tripper(object):
 
     def txt2img(self, prompt, negative_prompt, lora_dict,
                 width=512, height=768, num_img=6, guidance_scale=7, num_inference_steps=25,
-                out_dir="preview"):
+                out_dir="preview", **kargs):
         os.makedirs(out_dir, exist_ok = True)
 
         self.load_lora(lora_dict)
@@ -59,13 +73,13 @@ class Tripper(object):
         for i,img in enumerate(images):
             fn = f"{out_dir}/{timestr()}_{i}.jpg"
             img.convert("RGB").save(fn)
-        self.unload_lora(lora_dict)
+        # self.unload_lora(lora_dict)
 
         return images
 
     def img2img(self, image, prompt, negative_prompt, lora_dict, strength=0.5,
                 num_img=6, guidance_scale=7, num_inference_steps=25,
-                out_dir="preview"):
+                out_dir="preview", **kargs):
         os.makedirs(out_dir, exist_ok = True)
 
         self.load_lora(lora_dict)
@@ -91,7 +105,7 @@ class Tripper(object):
                         transform_fn,
                         guidance_scale=7, 
                         num_inference_steps=40,
-                        out_dir="preview"):
+                        out_dir="preview", **kargs):
 
         os.makedirs(out_dir, exist_ok = True)
 
@@ -123,42 +137,5 @@ class Tripper(object):
             fn = out_dir+"/%06d.jpg"%s
             images[-1].convert("RGB").save(fn)
 
-        self.unload_lora(lora_dict)
+        # self.unload_lora(lora_dict)
         return images
-
-
-    # def batch_generate(self, general_prompt, character_dict, addition_list, lora_dict,
-    #              negative_prompt, img_per_comb=6, save_dir=".", guidance_scale=7, num_inference_steps=25):
-    # for character in character_dict:
-    #     try:
-    #         pipeline = load_lora_weights(pipeline, character, 1., 'cuda', torch.float32, load=True)
-    #         print(f"loaded {character}")
-    #     except:
-    #         continue
-    #     for lora in lora_dict:
-    #         try:
-    #             pipeline = load_lora_weights(pipeline, lora, 1., 'cuda', torch.float32, load=True)
-    #             print(f"loaded {lora}")
-    #         except:
-    #             continue
-    #         for addition in addition_list:
-    #             width = lora_dict[lora][1]
-    #             height = lora_dict[lora][2]
-    #             prompt = general_prompt + lora_dict[lora][0] + addition + character_dict[character]
-    #             prompt = clean_prompt(prompt)
-    #             prompt_embeds, negative_prompt_embeds = convert_prompt_embeds(pipeline, prompt, negative_prompt)
-    #             images = txt2img_pipe(prompt_embeds=prompt_embeds,
-    #                                   negative_prompt_embeds=negative_prompt_embeds,
-    #                                   guidance_scale=guidance_scale,
-    #                                   num_images_per_prompt=img_per_comb,
-    #                                   num_inference_steps=num_inference_steps,
-    #                                   height=height, width=width,
-    #                                   ).images
-    #             for img in images:
-    #                 fn = f"{save_dir}/{character.split('.')[0]}_{lora.split('.')[0]}_{int(np.random.rand()*1e6)}.jpg"
-    #                 img.convert("RGB").save(fn)
-    #                 print(f"saved {fn}")
-    #         pipeline = load_lora_weights(pipeline, lora, 1., 'cuda', torch.float32, load=False)
-    #         print(f"unloaded {lora}")
-    #     pipeline = load_lora_weights(pipeline, character, 1., 'cuda', torch.float32, load=False)
-    #     print(f"unloaded {character}")
