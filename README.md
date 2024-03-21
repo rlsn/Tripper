@@ -16,6 +16,7 @@ Edit the `config.json` to configure the settings:
 - `lora_dict`: dictionary containing: {"[path_to_lora_safetensor]":[weight]}
 - `zoom`: zoom in(<1) or out(>1), 0.98~1.02 is a sensible value (no zooming with 1)
 - `strength`: roughly the similarity between two consecutive images (0~1)
+
 then run with
 ```
 python run.py
