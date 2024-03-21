@@ -1,8 +1,8 @@
 # Tripper
-A wrapper that generate consecutive sequence of images with SD1.5. It's quite a trip to watch images evolving. Future work may enable SDXL. Inspired by [deforum](https://deforum.art/), check it out.
+A pipeline that generate consecutive sequence of images with SD1.5. It's quite a trip to watch images evolving. Future work may enable SDXL. Inspired by [deforum](https://deforum.art/), check it out.
 ![](preview/sample1.gif)
 ![](preview/sample2.gif)
-# features
+# Features
 - support loading lora models (safetensors)
 - support prompt token size exceeding 75, plus negative prompt
 - frame zoom in/out 
