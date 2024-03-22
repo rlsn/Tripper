@@ -164,6 +164,8 @@ def zoom(im,ratio):
         nim = np.pad(im, ((m[1], m[1]), (m[0], m[0]), (0, 0)), mode='symmetric') 
         nim = Image.fromarray(nim)
         return nim.resize(s)
+    else:
+        return im
 
 def impulse_schedule(floor,ceiling,impulse,width,steps):
     x = np.arange(steps)
@@ -175,3 +177,23 @@ def impulse_schedule(floor,ceiling,impulse,width,steps):
     Y=np.array(Y).sum(0)
     print(Y.shape)
     return Y+floor
+
+def interpolation(img1, img2, num_frame=1):
+    img1 = np.array(img1,dtype=float)
+    img2 = np.array(img2,dtype=float)
+    d = (img2 - img1)/(num_frame+1)
+    imgs = []
+    for i in range(1,num_frame+1):
+        im = img1+d*i
+        imgs.append(Image.fromarray(im.astype(np.uint8)))
+    return imgs
+
+def interpolate_video(imgs, cadence=2):
+    if cadence<=1:
+        return imgs
+    else:
+        result = []
+        for i in range(len(imgs)-1):
+            result+=[imgs[i]]+interpolation(imgs[i],imgs[i+1],cadence-1)
+        result+=[imgs[-1]]
+    return result
