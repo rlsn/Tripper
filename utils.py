@@ -188,7 +188,7 @@ def interpolation(img1, img2, num_frame=1):
         imgs.append(Image.fromarray(im.astype(np.uint8)))
     return imgs
 
-def interpolate_video(imgs, cadence=2):
+def interpolate_animation(imgs, cadence=2):
     if cadence<=1:
         return imgs
     else:

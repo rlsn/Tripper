@@ -100,7 +100,7 @@ class Tripper(object):
         self.unload_lora(lora_dict)
         return images
 
-    def generate_video(self, init_image, prompt, negative_prompt, 
+    def generate_animation(self, init_image, prompt, negative_prompt, 
                         lora_dict, nsteps, strength_schedule,
                         transform_fn,
                         guidance_scale=7, 

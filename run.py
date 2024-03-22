@@ -9,7 +9,7 @@ from tripper import Tripper, schedulers
 import diffusers
 import argparse
 from attrdict import AttrDict
-from utils import const_schedule, zoom, export_as_gif, timestr, interpolate_video
+from utils import const_schedule, zoom, export_as_gif, timestr, interpolate_animation
 import PIL
 
 if __name__=="__main__":
@@ -22,14 +22,14 @@ if __name__=="__main__":
 
     tripper = Tripper(config.model_path)
     tripper.set_scheduler(schedulers[config.scheduler])
-    if config.generate_video:
+    if config.generate_animation:
         config.init_image = PIL.Image.open(config.init_image)
         # strength schedule
         config.strength_schedule = const_schedule(config.strength,config.nframes)       
         config.transform_fn = lambda img,s: zoom(img, config.zoom)
         config.nsteps=int(config.nframes//config.diffusion_cadence)
-        imgs = tripper.generate_video(**config)
-        imgs = interpolate_video(imgs, config.diffusion_cadence)
+        imgs = tripper.generate_animation(**config)
+        imgs = interpolate_animation(imgs, config.diffusion_cadence)
         export_as_gif(f"{config.out_dir}/{timestr()}.gif", imgs, frames_per_second=config.fps)
     else:
         tripper.txt2img(**config)

@@ -10,7 +10,7 @@ A pipeline that generate consecutive sequence of images with SD1.5. It's quite a
 # Usage
 Edit the `config.json` to configure the settings:
 - `model_path`: path to your SD model safetensors
-- `generate_video`: set false to generate a batch of images to choose from as an initial image, then set true to switch to video mode.
+- `generate_animation`: set false to generate a batch of images to choose from as an initial image, then set true to switch to animation mode.
 - `nframes`: total number of frames to generate
 - `scheduler`: choose one from "euler", "euler a", "DDIM", "DDPM", "DPM++ 2M SDE Karras", "DPM++ 2M Karras"
 - `num_inference_steps`: per image
