@@ -6,7 +6,8 @@ A pipeline that generates animations with SD1.5. Future work may enable SDXL. In
 # Features
 - support loading lora models (safetensors)
 - support prompt token size exceeding 75, plus negative prompt
-- frame zoom in/out 
+- frame zoom in/out
+- multiple methods to control the smoothness/creativeness between frames
 # Usage
 Edit the `config.json` to configure the settings:
 - `model_path`: path to your SD model safetensors
