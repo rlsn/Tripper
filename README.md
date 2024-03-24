@@ -1,7 +1,7 @@
 # Tripper
 A pipeline that generates animations with SD1.5. Future work may enable SDXL. Inspired by [deforum](https://deforum.art/), check it out.
 
-<img src = "preview/sample1.gif" width ="200" /> <img src = "preview/sample2.gif" width ="200" /> <img src = "preview/sample3.gif" width ="200" />
+<img src = "preview/sample1.gif" width ="33%" /> <img src = "preview/sample2.gif" width ="33%" /> <img src = "preview/sample3.gif" width ="33%" />
 
 # Features
 - support loading lora models (safetensors)
