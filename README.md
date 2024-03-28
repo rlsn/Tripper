@@ -1,5 +1,5 @@
 # Tripper
-A pipeline that generates animations with SD1.5. Future work may enable SDXL. Inspired by [deforum](https://deforum.art/), check it out.
+A pipeline that generates animations with SD1.5 (SDXL compatibility not tested). This work is inspired by [deforum](https://deforum.art/), check it out.
 
 <img src = "preview/sample1.gif" width ="30%" /> <img src = "preview/sample2.gif" width ="30%" /> <img src = "preview/sample3.gif" width ="30%" />
 
