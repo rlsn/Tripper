@@ -1,12 +1,13 @@
 # Tripper
-A pipeline that generate consecutive sequence of images with SD1.5. It's quite a trip to watch images evolving. Future work may enable SDXL. Inspired by [deforum](https://deforum.art/), check it out.
+A pipeline that generates animations with SD1.5 (SDXL compatibility not tested). This work is inspired by [deforum](https://deforum.art/), check it out.
 
-<img src = "preview/sample1.gif" width ="200" /> <img src = "preview/sample2.gif" width ="200" /> <img src = "preview/sample3.gif" width ="200" />
+<img src = "preview/sample1.gif" width ="30%" /> <img src = "preview/sample2.gif" width ="30%" /> <img src = "preview/sample3.gif" width ="30%" />
 
 # Features
 - support loading lora models (safetensors)
 - support prompt token size exceeding 75, plus negative prompt
-- frame zoom in/out 
+- frame zoom in/out
+- multiple methods to control the smoothness/creativeness between frames
 # Usage
 Edit the `config.json` to configure the settings:
 - `model_path`: path to your SD model safetensors
