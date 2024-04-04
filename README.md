@@ -21,7 +21,7 @@ Edit the `config.json` to configure the settings:
 
 then run with
 ```
-python run.py
+python generate.py
 ```
 
 Have fun
